@@ -36,7 +36,7 @@ O painel original está publicado no Power BI Service da empresa, com atualizaç
 O projeto está em [`pbip/`](pbip) no formato **Power BI Project (PBIP)**: o modelo (`model.bim`) e o relatório (`report.json`) ficam em texto e são versionados no Git. Eles são gerados por código (`scripts/gerar_pbip.py`) a partir das consultas M e das medidas DAX deste repositório.
 
 1. Clone o repositório e abra `pbip/RadarCP.pbip` no Power BI Desktop.
-2. Em *Transformar dados › Editar parâmetros*, aponte **PastaDados** para a pasta `data\` do seu clone (ou gere de novo com `python scripts/gerar_pbip.py --pasta-dados "C:\\caminho\\data\\"`).
+2. Em *Transformar dados › Editar parâmetros*, aponte **PastaDados** para a pasta `data\` do seu clone (ou gere de novo com `python scripts/gerar_pbip.py --pasta-dados "C:\caminho\data\"`).
 3. Clique em **Atualizar**. São 4 páginas: Resumo, Exceções D+3, Despesas e ABC, Aging e conciliação.
 4. Confira os cartões contra [`docs/valores_referencia.md`](docs/valores_referencia.md). Para ter um `.pbix`, use *Arquivo › Salvar como*.
 
