@@ -1,0 +1,208 @@
+{
+  "config": "{\"version\": \"5.43\", \"activeSectionIndex\": 0, \"objects\": {}}",
+  "layoutOptimization": 0,
+  "sections": [
+    {
+      "name": "2016b135a754415fa5e1",
+      "displayName": "Resumo",
+      "displayOption": 1,
+      "width": 1280,
+      "height": 720,
+      "ordinal": 0,
+      "config": "{}",
+      "filters": "[]",
+      "visualContainers": [
+        {
+          "x": 1040,
+          "y": 10,
+          "z": 0,
+          "width": 220,
+          "height": 60,
+          "config": "{\"name\": \"c476b41d1a0940ebbc4f\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 1040, \"y\": 10, \"z\": 0, \"width\": 220, \"height\": 60}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"dCalendario.Ano\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"dCalendario\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Ano\"}, \"Name\": \"dCalendario.Ano\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Ano'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 20,
+          "y": 80,
+          "z": 0,
+          "width": 240,
+          "height": 110,
+          "config": "{\"name\": \"20998fd53c6f4b80a888\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 80, \"z\": 0, \"width\": 240, \"height\": 110}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Medidas.Valor em Aberto\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Valor em Aberto\"}, \"Name\": \"_Medidas.Valor em Aberto\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Em aberto'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 270,
+          "y": 80,
+          "z": 0,
+          "width": 240,
+          "height": 110,
+          "config": "{\"name\": \"59a1771722a7481591cc\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 270, \"y\": 80, \"z\": 0, \"width\": 240, \"height\": 110}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Medidas.Valor Vencido\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Valor Vencido\"}, \"Name\": \"_Medidas.Valor Vencido\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Vencido'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 520,
+          "y": 80,
+          "z": 0,
+          "width": 240,
+          "height": 110,
+          "config": "{\"name\": \"fae44ae0e04a4b9ca0b0\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 520, \"y\": 80, \"z\": 0, \"width\": 240, \"height\": 110}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Medidas.% Exceção D+3\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"% Exceção D+3\"}, \"Name\": \"_Medidas.% Exceção D+3\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Exceções D+3'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 770,
+          "y": 80,
+          "z": 0,
+          "width": 240,
+          "height": 110,
+          "config": "{\"name\": \"cd6aa02c27c141759051\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 770, \"y\": 80, \"z\": 0, \"width\": 240, \"height\": 110}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Medidas.% Pago em Dia\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"% Pago em Dia\"}, \"Name\": \"_Medidas.% Pago em Dia\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Pago em dia'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 1020,
+          "y": 80,
+          "z": 0,
+          "width": 240,
+          "height": 110,
+          "config": "{\"name\": \"e75837048b9a40ae9ca2\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 1020, \"y\": 80, \"z\": 0, \"width\": 240, \"height\": 110}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Medidas.Var % YoY (acumulado)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Var % YoY (acumulado)\"}, \"Name\": \"_Medidas.Var % YoY (acumulado)\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'YoY acumulado'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 20,
+          "y": 210,
+          "z": 0,
+          "width": 780,
+          "height": 240,
+          "config": "{\"name\": \"78698f38353647b0bcde\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 210, \"z\": 0, \"width\": 780, \"height\": 240}}], \"singleVisual\": {\"visualType\": \"clusteredColumnChart\", \"projections\": {\"Category\": [{\"queryRef\": \"dCalendario.AnoMes\", \"active\": true}], \"Y\": [{\"queryRef\": \"_Medidas.Valor Total\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}, {\"Name\": \"t1\", \"Entity\": \"dCalendario\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"AnoMes\"}, \"Name\": \"dCalendario.AnoMes\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Valor Total\"}, \"Name\": \"_Medidas.Valor Total\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Valor por mês de vencimento'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 820,
+          "y": 210,
+          "z": 0,
+          "width": 440,
+          "height": 240,
+          "config": "{\"name\": \"5d4f63f6c671499488e0\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 820, \"y\": 210, \"z\": 0, \"width\": 440, \"height\": 240}}], \"singleVisual\": {\"visualType\": \"lineChart\", \"projections\": {\"Category\": [{\"queryRef\": \"dCalendario.AnoMes\", \"active\": true}], \"Y\": [{\"queryRef\": \"_Medidas.% Exceção D+3\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}, {\"Name\": \"t1\", \"Entity\": \"dCalendario\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"AnoMes\"}, \"Name\": \"dCalendario.AnoMes\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"% Exceção D+3\"}, \"Name\": \"_Medidas.% Exceção D+3\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'% exceções D+3'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 20,
+          "y": 470,
+          "z": 0,
+          "width": 780,
+          "height": 230,
+          "config": "{\"name\": \"dcd2bd0f7fda4d3cb4c3\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 470, \"z\": 0, \"width\": 780, \"height\": 230}}], \"singleVisual\": {\"visualType\": \"clusteredBarChart\", \"projections\": {\"Category\": [{\"queryRef\": \"dFornecedor.razao_social\", \"active\": true}], \"Y\": [{\"queryRef\": \"_Medidas.Valor Total\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}, {\"Name\": \"t1\", \"Entity\": \"dFornecedor\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"razao_social\"}, \"Name\": \"dFornecedor.razao_social\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Valor Total\"}, \"Name\": \"_Medidas.Valor Total\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Valor por fornecedor'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 820,
+          "y": 470,
+          "z": 0,
+          "width": 440,
+          "height": 230,
+          "config": "{\"name\": \"52716015b87e4b018b41\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 820, \"y\": 470, \"z\": 0, \"width\": 440, \"height\": 230}}], \"singleVisual\": {\"visualType\": \"clusteredColumnChart\", \"projections\": {\"Category\": [{\"queryRef\": \"dPA.regional\", \"active\": true}], \"Y\": [{\"queryRef\": \"_Medidas.Valor em Aberto\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}, {\"Name\": \"t1\", \"Entity\": \"dPA\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"regional\"}, \"Name\": \"dPA.regional\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Valor em Aberto\"}, \"Name\": \"_Medidas.Valor em Aberto\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Em aberto por regional'\"}}}}}]}}}",
+          "filters": "[]"
+        }
+      ]
+    },
+    {
+      "name": "79d5e26060a44a91a342",
+      "displayName": "Exceções D+3",
+      "displayOption": 1,
+      "width": 1280,
+      "height": 720,
+      "ordinal": 1,
+      "config": "{}",
+      "filters": "[]",
+      "visualContainers": [
+        {
+          "x": 20,
+          "y": 20,
+          "z": 0,
+          "width": 1240,
+          "height": 680,
+          "config": "{\"name\": \"b591385f73d34dc2a79e\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 20, \"z\": 0, \"width\": 1240, \"height\": 680}}], \"singleVisual\": {\"visualType\": \"tableEx\", \"projections\": {\"Values\": [{\"queryRef\": \"dFornecedor.razao_social\"}, {\"queryRef\": \"_Medidas.Qtd Recebidos\"}, {\"queryRef\": \"_Medidas.Qtd Exceções D+3\"}, {\"queryRef\": \"_Medidas.% Exceção D+3\"}, {\"queryRef\": \"_Medidas.Status Meta D+3\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}, {\"Name\": \"t1\", \"Entity\": \"dFornecedor\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"razao_social\"}, \"Name\": \"dFornecedor.razao_social\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Qtd Recebidos\"}, \"Name\": \"_Medidas.Qtd Recebidos\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Qtd Exceções D+3\"}, \"Name\": \"_Medidas.Qtd Exceções D+3\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"% Exceção D+3\"}, \"Name\": \"_Medidas.% Exceção D+3\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Status Meta D+3\"}, \"Name\": \"_Medidas.Status Meta D+3\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Exceções D+3 por fornecedor'\"}}}}}]}}}",
+          "filters": "[]"
+        }
+      ]
+    },
+    {
+      "name": "a00baac6dc754dfaa269",
+      "displayName": "Despesas e ABC",
+      "displayOption": 1,
+      "width": 1280,
+      "height": 720,
+      "ordinal": 2,
+      "config": "{}",
+      "filters": "[]",
+      "visualContainers": [
+        {
+          "x": 20,
+          "y": 20,
+          "z": 0,
+          "width": 620,
+          "height": 680,
+          "config": "{\"name\": \"3bf3d98e8a82451f9646\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 20, \"z\": 0, \"width\": 620, \"height\": 680}}], \"singleVisual\": {\"visualType\": \"tableEx\", \"projections\": {\"Values\": [{\"queryRef\": \"dFornecedor.razao_social\"}, {\"queryRef\": \"_Medidas.Valor Total\"}, {\"queryRef\": \"_Medidas.% Acumulado ABC\"}, {\"queryRef\": \"_Medidas.Classe ABC\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}, {\"Name\": \"t1\", \"Entity\": \"dFornecedor\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"razao_social\"}, \"Name\": \"dFornecedor.razao_social\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Valor Total\"}, \"Name\": \"_Medidas.Valor Total\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"% Acumulado ABC\"}, \"Name\": \"_Medidas.% Acumulado ABC\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Classe ABC\"}, \"Name\": \"_Medidas.Classe ABC\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Curva ABC'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 660,
+          "y": 20,
+          "z": 0,
+          "width": 600,
+          "height": 680,
+          "config": "{\"name\": \"50f6a2c52d91473f995d\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 660, \"y\": 20, \"z\": 0, \"width\": 600, \"height\": 680}}], \"singleVisual\": {\"visualType\": \"tableEx\", \"projections\": {\"Values\": [{\"queryRef\": \"dConta.tipo_despesa\"}, {\"queryRef\": \"_Medidas.Valor Acumulado no Ano\"}, {\"queryRef\": \"_Medidas.Valor Acumulado Ano Anterior\"}, {\"queryRef\": \"_Medidas.Var % YoY (acumulado)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}, {\"Name\": \"t1\", \"Entity\": \"dConta\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"tipo_despesa\"}, \"Name\": \"dConta.tipo_despesa\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Valor Acumulado no Ano\"}, \"Name\": \"_Medidas.Valor Acumulado no Ano\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Valor Acumulado Ano Anterior\"}, \"Name\": \"_Medidas.Valor Acumulado Ano Anterior\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Var % YoY (acumulado)\"}, \"Name\": \"_Medidas.Var % YoY (acumulado)\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Comparativo anual por tipo de despesa'\"}}}}}]}}}",
+          "filters": "[]"
+        }
+      ]
+    },
+    {
+      "name": "7bfee439e9014fd891de",
+      "displayName": "Aging e conciliação",
+      "displayOption": 1,
+      "width": 1280,
+      "height": 720,
+      "ordinal": 3,
+      "config": "{}",
+      "filters": "[]",
+      "visualContainers": [
+        {
+          "x": 20,
+          "y": 20,
+          "z": 0,
+          "width": 600,
+          "height": 300,
+          "config": "{\"name\": \"b40c3a620a034e4b93ec\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 20, \"z\": 0, \"width\": 600, \"height\": 300}}], \"singleVisual\": {\"visualType\": \"tableEx\", \"projections\": {\"Values\": [{\"queryRef\": \"dFaixaAging.Faixa\"}, {\"queryRef\": \"_Medidas.Valor Aging\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}, {\"Name\": \"t1\", \"Entity\": \"dFaixaAging\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"Faixa\"}, \"Name\": \"dFaixaAging.Faixa\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Valor Aging\"}, \"Name\": \"_Medidas.Valor Aging\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Aging do em aberto'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 660,
+          "y": 20,
+          "z": 0,
+          "width": 240,
+          "height": 110,
+          "config": "{\"name\": \"0b51499f23e64828bd7a\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 660, \"y\": 20, \"z\": 0, \"width\": 240, \"height\": 110}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Medidas.Qtd Pagos sem Lançamento\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Qtd Pagos sem Lançamento\"}, \"Name\": \"_Medidas.Qtd Pagos sem Lançamento\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Pagos sem lançamento'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 920,
+          "y": 20,
+          "z": 0,
+          "width": 240,
+          "height": 110,
+          "config": "{\"name\": \"de0e59124b12490690a4\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 920, \"y\": 20, \"z\": 0, \"width\": 240, \"height\": 110}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Medidas.Diferença Título x Razão\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Diferença Título x Razão\"}, \"Name\": \"_Medidas.Diferença Título x Razão\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Diferença título x razão'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 20,
+          "y": 340,
+          "z": 0,
+          "width": 1240,
+          "height": 360,
+          "config": "{\"name\": \"cb02da0eb4444c33abf2\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 340, \"z\": 0, \"width\": 1240, \"height\": 360}}], \"singleVisual\": {\"visualType\": \"tableEx\", \"projections\": {\"Values\": [{\"queryRef\": \"dCalendario.AnoMes\"}, {\"queryRef\": \"_Medidas.Valor Pago\"}, {\"queryRef\": \"_Medidas.Valor Razão\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}, {\"Name\": \"t1\", \"Entity\": \"dCalendario\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"AnoMes\"}, \"Name\": \"dCalendario.AnoMes\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Valor Pago\"}, \"Name\": \"_Medidas.Valor Pago\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Valor Razão\"}, \"Name\": \"_Medidas.Valor Razão\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Pago x contabilizado por mês'\"}}}}}]}}}",
+          "filters": "[]"
+        }
+      ]
+    }
+  ],
+  "filters": "[]"
+}

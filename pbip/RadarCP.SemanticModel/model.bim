@@ -1,0 +1,916 @@
+{
+  "name": "SemanticModel",
+  "compatibilityLevel": 1567,
+  "model": {
+    "culture": "pt-BR",
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "sourceQueryCulture": "pt-BR",
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "tables": [
+      {
+        "name": "fTitulo",
+        "lineageTag": "8a267dea-5872-4bed-87e2-7d46db106079",
+        "columns": [
+          {
+            "name": "titulo_id",
+            "dataType": "int64",
+            "sourceColumn": "titulo_id",
+            "lineageTag": "bb644f9a-9a13-44fc-8c43-e88235a67af3",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "fornecedor_id",
+            "dataType": "int64",
+            "sourceColumn": "fornecedor_id",
+            "lineageTag": "93a98a17-1dc9-4df2-9685-c475c13c68f4",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "pa_id",
+            "dataType": "int64",
+            "sourceColumn": "pa_id",
+            "lineageTag": "8a839010-7422-4d2e-8c96-e1f74c440430",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "conta_sk",
+            "dataType": "int64",
+            "sourceColumn": "conta_sk",
+            "lineageTag": "c13ac0c2-cbff-4afc-b5e6-fb374f142fbc",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "usuario_inclusao",
+            "dataType": "string",
+            "sourceColumn": "usuario_inclusao",
+            "lineageTag": "90d00bdc-f3cc-4132-a422-9a868dbb1632",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "data_emissao",
+            "dataType": "dateTime",
+            "sourceColumn": "data_emissao",
+            "lineageTag": "d24661dd-2fe9-462e-8052-9c27aeff3f06",
+            "summarizeBy": "none",
+            "formatString": "dd/mm/yyyy"
+          },
+          {
+            "name": "data_recebimento",
+            "dataType": "dateTime",
+            "sourceColumn": "data_recebimento",
+            "lineageTag": "ccbc9e06-d9b5-4128-bdb8-a38e41bcdba0",
+            "summarizeBy": "none",
+            "formatString": "dd/mm/yyyy"
+          },
+          {
+            "name": "data_vencimento",
+            "dataType": "dateTime",
+            "sourceColumn": "data_vencimento",
+            "lineageTag": "cacb5120-4c20-4b57-9ee0-7b4b88320257",
+            "summarizeBy": "none",
+            "formatString": "dd/mm/yyyy"
+          },
+          {
+            "name": "data_pagamento",
+            "dataType": "dateTime",
+            "sourceColumn": "data_pagamento",
+            "lineageTag": "c711ca6b-0e5b-4e0d-b246-e6dffe88ae2e",
+            "summarizeBy": "none",
+            "formatString": "dd/mm/yyyy"
+          },
+          {
+            "name": "valor",
+            "dataType": "decimal",
+            "sourceColumn": "valor",
+            "lineageTag": "0751f899-812c-4ef4-84a0-ba2e57732968",
+            "summarizeBy": "sum",
+            "formatString": "\"R$\" #,0.00"
+          },
+          {
+            "name": "dias_antecedencia",
+            "dataType": "int64",
+            "sourceColumn": "dias_antecedencia",
+            "lineageTag": "ec26918e-ecd1-448f-9284-2fab25a65d0c",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "excecao_d3",
+            "dataType": "boolean",
+            "sourceColumn": "excecao_d3",
+            "lineageTag": "12482fe7-298b-4c81-a3b6-948141881a46",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "dias_atraso",
+            "dataType": "int64",
+            "sourceColumn": "dias_atraso",
+            "lineageTag": "2636c6ac-14e7-4bda-a00d-b4fc53242c2b",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "situacao",
+            "dataType": "string",
+            "sourceColumn": "situacao",
+            "lineageTag": "155413e0-51b7-41f6-9ab1-b6b567ea34eb",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "fTitulo",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Origem = fxLerCsv(\"fato_titulo.csv\"),",
+                "    Tipos  = Table.TransformColumnTypes(Origem, {",
+                "        {\"titulo_id\", Int64.Type}, {\"fornecedor_id\", Int64.Type}, {\"pa_id\", Int64.Type}, {\"conta_sk\", Int64.Type},",
+                "        {\"usuario_inclusao\", type text}, {\"data_emissao\", type date}, {\"data_recebimento\", type date},",
+                "        {\"data_vencimento\", type date}, {\"data_pagamento\", type date}, {\"valor\", Currency.Type}}, \"en-US\"),",
+                "    DiasAntecedencia = Table.AddColumn(Tipos, \"dias_antecedencia\",",
+                "        each Duration.Days([data_vencimento] - [data_recebimento]), Int64.Type),",
+                "    ExcecaoD3 = Table.AddColumn(DiasAntecedencia, \"excecao_d3\", each [dias_antecedencia] < 3, type logical),",
+                "    DiasAtraso = Table.AddColumn(ExcecaoD3, \"dias_atraso\",",
+                "        each if [data_pagamento] = null then null else Duration.Days([data_pagamento] - [data_vencimento]), Int64.Type),",
+                "    Situacao = Table.AddColumn(DiasAtraso, \"situacao\", each if [data_pagamento] = null then \"Em aberto\" else \"Pago\", type text)",
+                "in",
+                "    Situacao"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "fRazao",
+        "lineageTag": "84a02e5c-b708-4070-80a0-2aa2f800cc7e",
+        "columns": [
+          {
+            "name": "lancamento_id",
+            "dataType": "int64",
+            "sourceColumn": "lancamento_id",
+            "lineageTag": "39f42d19-0fdb-41c9-aabc-ee315888a122",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "data_lancamento",
+            "dataType": "dateTime",
+            "sourceColumn": "data_lancamento",
+            "lineageTag": "3d6b9284-dad5-48b1-95c7-d617d3dffaee",
+            "summarizeBy": "none",
+            "formatString": "dd/mm/yyyy"
+          },
+          {
+            "name": "conta_sk",
+            "dataType": "int64",
+            "sourceColumn": "conta_sk",
+            "lineageTag": "b53b695e-399b-4d93-bd7b-a9f423cd5f79",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "historico",
+            "dataType": "string",
+            "sourceColumn": "historico",
+            "lineageTag": "13cfa0b7-215e-46a4-9bc3-4db8cb2501f5",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "valor",
+            "dataType": "decimal",
+            "sourceColumn": "valor",
+            "lineageTag": "b103a7e4-5987-499e-8d6c-32bdbbf9e7f9",
+            "summarizeBy": "sum",
+            "formatString": "\"R$\" #,0.00"
+          },
+          {
+            "name": "titulo_id",
+            "dataType": "int64",
+            "sourceColumn": "titulo_id",
+            "lineageTag": "98efba81-84b5-4171-abfe-af2be69384d2",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "fRazao",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Origem = fxLerCsv(\"fato_razao.csv\"),",
+                "    Tipos  = Table.TransformColumnTypes(Origem, {",
+                "        {\"lancamento_id\", Int64.Type}, {\"data_lancamento\", type date}, {\"conta_sk\", Int64.Type},",
+                "        {\"historico\", type text}, {\"valor\", Currency.Type}, {\"titulo_id\", Int64.Type}}, \"en-US\")",
+                "in",
+                "    Tipos"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "dFornecedor",
+        "lineageTag": "c700f6b2-e47e-4eaa-afac-1c6c2773f9e4",
+        "columns": [
+          {
+            "name": "fornecedor_id",
+            "dataType": "int64",
+            "sourceColumn": "fornecedor_id",
+            "lineageTag": "1c8ec83f-1978-4458-96fb-254458da995a",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "razao_social",
+            "dataType": "string",
+            "sourceColumn": "razao_social",
+            "lineageTag": "9a85af22-5028-467e-ad87-09ed94a3a2a8",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "cnpj",
+            "dataType": "string",
+            "sourceColumn": "cnpj",
+            "lineageTag": "65f74d16-5628-4b5d-8fce-b17c342a1310",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "grupo_despesa",
+            "dataType": "string",
+            "sourceColumn": "grupo_despesa",
+            "lineageTag": "e37bd61f-e8f0-476f-870f-9500250d8854",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "peso_analise",
+            "dataType": "double",
+            "sourceColumn": "peso_analise",
+            "lineageTag": "eeabf841-8f41-493a-b01e-df5f7917e2ae",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "dFornecedor",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Origem = fxLerCsv(\"dim_fornecedor.csv\"),",
+                "    Tipos  = Table.TransformColumnTypes(Origem, {",
+                "        {\"fornecedor_id\", Int64.Type}, {\"razao_social\", type text}, {\"cnpj\", type text},",
+                "        {\"grupo_despesa\", type text}, {\"peso_analise\", type number}}, \"en-US\")",
+                "in",
+                "    Tipos"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "dPA",
+        "lineageTag": "f84874dd-4af6-4ef6-8944-77c59e851801",
+        "columns": [
+          {
+            "name": "pa_id",
+            "dataType": "int64",
+            "sourceColumn": "pa_id",
+            "lineageTag": "cd82dfec-ecbb-4279-9037-f12abcbc6c5b",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "nome_pa",
+            "dataType": "string",
+            "sourceColumn": "nome_pa",
+            "lineageTag": "3ba03bf0-bcc9-457a-af12-67e4dcca6668",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "regional",
+            "dataType": "string",
+            "sourceColumn": "regional",
+            "lineageTag": "30dd4c9e-3a95-40b9-8400-e79d4ad27ff4",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "dPA",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Origem = fxLerCsv(\"dim_pa.csv\"),",
+                "    Tipos  = Table.TransformColumnTypes(Origem, {{\"pa_id\", Int64.Type}, {\"nome_pa\", type text}, {\"regional\", type text}})",
+                "in",
+                "    Tipos"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "dConta",
+        "lineageTag": "3d25d288-d648-45ca-9fd5-ec195585bff1",
+        "columns": [
+          {
+            "name": "conta_sk",
+            "dataType": "int64",
+            "sourceColumn": "conta_sk",
+            "lineageTag": "1bed69cc-a11d-4ecd-8d34-093ee9ddc9d1",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "cod_reduzido",
+            "dataType": "int64",
+            "sourceColumn": "cod_reduzido",
+            "lineageTag": "fbcfb4c0-babb-4863-8193-308b69a64244",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "conta_completa",
+            "dataType": "string",
+            "sourceColumn": "conta_completa",
+            "lineageTag": "0d741976-e263-4fa6-812a-8002584af58d",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "descricao",
+            "dataType": "string",
+            "sourceColumn": "descricao",
+            "lineageTag": "14b07767-f325-4cf9-9b7f-c0d7efdd1a0b",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "tipo_despesa",
+            "dataType": "string",
+            "sourceColumn": "tipo_despesa",
+            "lineageTag": "34b5f5f1-dc7f-42f3-aecc-a80c9d6492fd",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "vigencia_inicio",
+            "dataType": "dateTime",
+            "sourceColumn": "vigencia_inicio",
+            "lineageTag": "6d72e2d1-df23-45e0-b5b4-f52087b42db1",
+            "summarizeBy": "none",
+            "formatString": "dd/mm/yyyy"
+          },
+          {
+            "name": "vigencia_fim",
+            "dataType": "dateTime",
+            "sourceColumn": "vigencia_fim",
+            "lineageTag": "845d480c-2048-4ff7-a839-0f693c9e3dc7",
+            "summarizeBy": "none",
+            "formatString": "dd/mm/yyyy"
+          },
+          {
+            "name": "conta_rotulo",
+            "dataType": "string",
+            "sourceColumn": "conta_rotulo",
+            "lineageTag": "6781d042-48f9-47d4-8988-d6225f119ec3",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "dConta",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Origem = fxLerCsv(\"dim_conta_contabil.csv\"),",
+                "    Tipos  = Table.TransformColumnTypes(Origem, {",
+                "        {\"conta_sk\", Int64.Type}, {\"cod_reduzido\", Int64.Type}, {\"conta_completa\", type text}, {\"descricao\", type text},",
+                "        {\"tipo_despesa\", type text}, {\"vigencia_inicio\", type date}, {\"vigencia_fim\", type date}}, \"en-US\"),",
+                "    Rotulo = Table.AddColumn(Tipos, \"conta_rotulo\", each [conta_completa] & \" - \" & [descricao], type text)",
+                "in",
+                "    Rotulo"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "dCalendario",
+        "lineageTag": "2c0eb312-41cb-4821-ada7-935e6dd2ea56",
+        "columns": [
+          {
+            "name": "Data",
+            "dataType": "dateTime",
+            "sourceColumn": "Data",
+            "lineageTag": "8c10d502-171d-4fb0-9e86-d87ae4a9ff91",
+            "summarizeBy": "none",
+            "formatString": "dd/mm/yyyy",
+            "isKey": true
+          },
+          {
+            "name": "Ano",
+            "dataType": "int64",
+            "sourceColumn": "Ano",
+            "lineageTag": "c8dbd498-4989-4eba-8aab-1bb77bbd30b3",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "MesNum",
+            "dataType": "int64",
+            "sourceColumn": "MesNum",
+            "lineageTag": "4a4e6111-9167-4fb4-b3d0-0d9e7fec60ba",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "Mes",
+            "dataType": "string",
+            "sourceColumn": "Mes",
+            "lineageTag": "a693a961-a3f2-47f6-a63c-531902d74108",
+            "summarizeBy": "none",
+            "sortByColumn": "MesNum"
+          },
+          {
+            "name": "AnoMes",
+            "dataType": "string",
+            "sourceColumn": "AnoMes",
+            "lineageTag": "c4544c8b-b4e0-424a-8c5d-7fc8116cc5d2",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Trimestre",
+            "dataType": "string",
+            "sourceColumn": "Trimestre",
+            "lineageTag": "f92c952c-3629-4837-9de3-17d98829193e",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "DiaUtil",
+            "dataType": "boolean",
+            "sourceColumn": "DiaUtil",
+            "lineageTag": "035d9b1e-363a-4035-9ea7-362ce789e565",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "dCalendario",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Datas  = List.Combine({fTitulo[data_emissao], fTitulo[data_vencimento], List.RemoveNulls(fTitulo[data_pagamento])}),",
+                "    Inicio = #date(Date.Year(List.Min(Datas)), 1, 1),",
+                "    Fim    = #date(Date.Year(List.Max(Datas)), 12, 31),",
+                "    Lista  = List.Dates(Inicio, Duration.Days(Fim - Inicio) + 1, #duration(1, 0, 0, 0)),",
+                "    Tabela = Table.FromList(Lista, Splitter.SplitByNothing(), {\"Data\"}, null, ExtraValues.Error),",
+                "    Tipo   = Table.TransformColumnTypes(Tabela, {{\"Data\", type date}}),",
+                "    Ano    = Table.AddColumn(Tipo, \"Ano\", each Date.Year([Data]), Int64.Type),",
+                "    MesNum = Table.AddColumn(Ano, \"MesNum\", each Date.Month([Data]), Int64.Type),",
+                "    Mes    = Table.AddColumn(MesNum, \"Mes\", each Text.Proper(Date.ToText([Data], \"MMM\", \"pt-BR\")), type text),",
+                "    AnoMes = Table.AddColumn(Mes, \"AnoMes\", each Date.ToText([Data], \"yyyy-MM\"), type text),",
+                "    Trim   = Table.AddColumn(AnoMes, \"Trimestre\", each \"T\" & Text.From(Date.QuarterOfYear([Data])), type text),",
+                "    DiaUtil = Table.AddColumn(Trim, \"DiaUtil\", each Date.DayOfWeek([Data], Day.Monday) < 5, type logical)",
+                "in",
+                "    DiaUtil"
+              ]
+            }
+          }
+        ],
+        "dataCategory": "Time"
+      },
+      {
+        "name": "dFaixaAging",
+        "lineageTag": "4b4a0d55-724f-4364-a9af-f2daa82529be",
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "Faixa",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "[Faixa]",
+            "lineageTag": "242571c5-ac1e-4694-a969-f873aca5fe07",
+            "summarizeBy": "none",
+            "sortByColumn": "Ordem"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Ordem",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "[Ordem]",
+            "lineageTag": "f710b859-a1d9-4535-b9fe-7b0cf8bf848d",
+            "summarizeBy": "none"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Min",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "[Min]",
+            "lineageTag": "b60994ad-5858-4964-b562-658d1d348fc2",
+            "summarizeBy": "none"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "Max",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "[Max]",
+            "lineageTag": "e958dc26-ad64-47b6-9040-1e86014eac2c",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "dFaixaAging",
+            "mode": "import",
+            "source": {
+              "type": "calculated",
+              "expression": "DATATABLE(\"Faixa\", STRING, \"Ordem\", INTEGER, \"Min\", INTEGER, \"Max\", INTEGER, {{\"A vencer\", 1, -99999, 0}, {\"1-30\", 2, 1, 30}, {\"31-60\", 3, 31, 60}, {\"61-90\", 4, 61, 90}, {\"> 90\", 5, 91, 99999}})"
+            }
+          }
+        ]
+      },
+      {
+        "name": "_Medidas",
+        "lineageTag": "14cefc96-bd4a-45de-8445-d08e91ef774e",
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "Coluna",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "[Coluna]",
+            "lineageTag": "8aa2ba4f-b519-4c77-9d44-33a2ba67cadd",
+            "summarizeBy": "none",
+            "isHidden": true
+          }
+        ],
+        "partitions": [
+          {
+            "name": "_Medidas",
+            "mode": "import",
+            "source": {
+              "type": "calculated",
+              "expression": "ROW(\"Coluna\", BLANK())"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Valor Total",
+            "expression": "    SUM ( fTitulo[valor] )",
+            "formatString": "\"R$\" #,0.00",
+            "lineageTag": "93b9127d-228c-4ca7-9c34-e7d784ca820a"
+          },
+          {
+            "name": "Qtd Títulos",
+            "expression": "    COUNTROWS ( fTitulo )",
+            "formatString": "#,0",
+            "lineageTag": "1af8b6e6-5a64-42b0-98c3-2a41afffa060"
+          },
+          {
+            "name": "Valor Pago",
+            "expression": [
+              "    CALCULATE (",
+              "        [Valor Total],",
+              "        NOT ISBLANK ( fTitulo[data_pagamento] ),",
+              "        USERELATIONSHIP ( dCalendario[Data], fTitulo[data_pagamento] )",
+              "    )"
+            ],
+            "formatString": "\"R$\" #,0.00",
+            "lineageTag": "04ad606d-c8c3-487f-955b-a8e6183db426"
+          },
+          {
+            "name": "Valor em Aberto",
+            "expression": "    CALCULATE ( [Valor Total], ISBLANK ( fTitulo[data_pagamento] ) )",
+            "formatString": "\"R$\" #,0.00",
+            "lineageTag": "111876df-1161-4dd8-8d7e-82673ecac189"
+          },
+          {
+            "name": "Data Base",
+            "expression": "    CALCULATE ( MAX ( fTitulo[data_pagamento] ), REMOVEFILTERS () )",
+            "formatString": "dd/mm/yyyy",
+            "lineageTag": "7e9214df-1740-40b2-b045-6ebf5a2ad49f"
+          },
+          {
+            "name": "Valor Vencido",
+            "expression": [
+              "    VAR _base = [Data Base]",
+              "    RETURN",
+              "        CALCULATE (",
+              "            [Valor em Aberto],",
+              "            KEEPFILTERS ( fTitulo[data_vencimento] < _base )",
+              "        )"
+            ],
+            "formatString": "\"R$\" #,0.00",
+            "lineageTag": "e9fc0627-4159-447f-befe-84abb4674ca6"
+          },
+          {
+            "name": "Qtd Exceções D+3",
+            "expression": [
+              "    CALCULATE (",
+              "        [Qtd Títulos],",
+              "        fTitulo[excecao_d3] = TRUE (),",
+              "        USERELATIONSHIP ( dCalendario[Data], fTitulo[data_recebimento] )",
+              "    )"
+            ],
+            "formatString": "#,0",
+            "lineageTag": "8c28fd12-9650-490f-9a4e-c24ad60bf6b0"
+          },
+          {
+            "name": "Qtd Recebidos",
+            "expression": "    CALCULATE ( [Qtd Títulos], USERELATIONSHIP ( dCalendario[Data], fTitulo[data_recebimento] ) )",
+            "formatString": "#,0",
+            "lineageTag": "a2cba826-176c-471c-96ca-2f9974b68087"
+          },
+          {
+            "name": "% Exceção D+3",
+            "expression": "    DIVIDE ( [Qtd Exceções D+3], [Qtd Recebidos] )",
+            "formatString": "0.0%",
+            "lineageTag": "d266009a-35f7-4e91-ab15-ec1c5cb91196"
+          },
+          {
+            "name": "Meta % Exceção D+3",
+            "expression": "0.15",
+            "formatString": "0.0%",
+            "lineageTag": "bc5c9a14-7a5c-479d-b4d1-2a366dfaa1cc"
+          },
+          {
+            "name": "Status Meta D+3",
+            "expression": "    IF ( [% Exceção D+3] <= [Meta % Exceção D+3], \"Dentro da meta\", \"Acima da meta\" )",
+            "lineageTag": "2903f7ce-3e84-49c8-8c82-e4b1b11bf675"
+          },
+          {
+            "name": "% Pago em Dia",
+            "expression": [
+              "    VAR _pagos =",
+              "        CALCULATE ( [Qtd Títulos], NOT ISBLANK ( fTitulo[data_pagamento] ) )",
+              "    VAR _emDia =",
+              "        CALCULATE ( [Qtd Títulos], NOT ISBLANK ( fTitulo[data_pagamento] ), fTitulo[dias_atraso] <= 0 )",
+              "    RETURN",
+              "        DIVIDE ( _emDia, _pagos )"
+            ],
+            "formatString": "0.0%",
+            "lineageTag": "1ebd8f1d-a6e0-4474-96fc-b29a1eb5a773"
+          },
+          {
+            "name": "Valor Mês Anterior",
+            "expression": [
+              "    VAR _fimMesAtual = MAX ( dCalendario[Data] )",
+              "    VAR _iniMesAnt = EOMONTH ( _fimMesAtual, -2 ) + 1",
+              "    VAR _fimMesAnt = EOMONTH ( _fimMesAtual, -1 )",
+              "    RETURN",
+              "        CALCULATE (",
+              "            [Valor Total],",
+              "            REMOVEFILTERS ( dCalendario ),",
+              "            DATESBETWEEN ( dCalendario[Data], _iniMesAnt, _fimMesAnt )",
+              "        )"
+            ],
+            "formatString": "\"R$\" #,0.00",
+            "lineageTag": "2ce90d5a-ed77-474b-85f0-474c9a4ba803"
+          },
+          {
+            "name": "Var % MoM",
+            "expression": "    DIVIDE ( [Valor Total] - [Valor Mês Anterior], [Valor Mês Anterior] )",
+            "formatString": "0.0%",
+            "lineageTag": "5de9b2b9-23de-4b10-8ef2-2d1a92c3491e"
+          },
+          {
+            "name": "Valor Acumulado no Ano",
+            "expression": "    TOTALYTD ( [Valor Total], dCalendario[Data] )",
+            "formatString": "\"R$\" #,0.00",
+            "lineageTag": "352999b4-9d08-49a0-aa9d-c207770ff946"
+          },
+          {
+            "name": "Valor Acumulado Ano Anterior",
+            "expression": [
+              "    VAR _ultimo = MIN ( MAX ( dCalendario[Data] ), [Data Base] )",
+              "    RETURN",
+              "        CALCULATE (",
+              "            [Valor Total],",
+              "            REMOVEFILTERS ( dCalendario ),",
+              "            DATESBETWEEN (",
+              "                dCalendario[Data],",
+              "                DATE ( YEAR ( _ultimo ) - 1, 1, 1 ),",
+              "                EDATE ( _ultimo, -12 )",
+              "            )",
+              "        )"
+            ],
+            "formatString": "\"R$\" #,0.00",
+            "lineageTag": "3042085a-9f6d-4444-a222-3930f97b6d20"
+          },
+          {
+            "name": "Var % YoY (acumulado)",
+            "expression": "    DIVIDE ( [Valor Acumulado no Ano] - [Valor Acumulado Ano Anterior], [Valor Acumulado Ano Anterior] )",
+            "formatString": "0.0%",
+            "lineageTag": "c0835bdb-982c-42d1-882a-6a474b218d39"
+          },
+          {
+            "name": "% Acumulado ABC",
+            "expression": [
+              "    VAR _valorAtual = [Valor Total]",
+              "    VAR _tabela =",
+              "        ADDCOLUMNS ( ALLSELECTED ( dFornecedor[razao_social] ), \"@v\", [Valor Total] )",
+              "    VAR _acumulado =",
+              "        SUMX ( FILTER ( _tabela, [@v] >= _valorAtual ), [@v] )",
+              "    RETURN",
+              "        DIVIDE ( _acumulado, SUMX ( _tabela, [@v] ) )"
+            ],
+            "formatString": "0.0%",
+            "lineageTag": "523353d0-f3e3-49ac-aa3f-6778852c2536"
+          },
+          {
+            "name": "Classe ABC",
+            "expression": [
+              "    VAR _pct = [% Acumulado ABC]",
+              "    VAR _part = DIVIDE ( [Valor Total], CALCULATE ( [Valor Total], ALLSELECTED ( dFornecedor ) ) )",
+              "    RETURN",
+              "        SWITCH ( TRUE (),",
+              "            ISBLANK ( [Valor Total] ), BLANK (),",
+              "            _pct - _part < 0.80, \"A\",",
+              "            _pct - _part < 0.95, \"B\",",
+              "            \"C\" )"
+            ],
+            "lineageTag": "bb14bfa8-ec84-4ff3-8e3a-9b030b545d79"
+          },
+          {
+            "name": "Valor Aging",
+            "expression": [
+              "    VAR _base = [Data Base]",
+              "    VAR _min = SELECTEDVALUE ( dFaixaAging[Min] )",
+              "    VAR _max = SELECTEDVALUE ( dFaixaAging[Max] )",
+              "    RETURN",
+              "        SUMX (",
+              "            FILTER (",
+              "                fTitulo,",
+              "                ISBLANK ( fTitulo[data_pagamento] )",
+              "                    && VAR _d = INT ( _base - fTitulo[data_vencimento] )",
+              "                       RETURN _d >= _min && _d <= _max",
+              "            ),",
+              "            fTitulo[valor]",
+              "        )"
+            ],
+            "formatString": "\"R$\" #,0.00",
+            "lineageTag": "83b50fdf-b203-447d-a85b-4a5e6aea3b8a"
+          },
+          {
+            "name": "Qtd Pagos sem Lançamento",
+            "expression": [
+              "    COUNTROWS (",
+              "        FILTER (",
+              "            fTitulo,",
+              "            NOT ISBLANK ( fTitulo[data_pagamento] )",
+              "                && ISEMPTY ( FILTER ( fRazao, fRazao[titulo_id] = fTitulo[titulo_id] ) )",
+              "        )",
+              "    )"
+            ],
+            "formatString": "#,0",
+            "lineageTag": "e4f1bcfe-0b10-4356-9d97-3a2a46d7067c"
+          },
+          {
+            "name": "Valor Razão",
+            "expression": "    SUM ( fRazao[valor] )",
+            "formatString": "\"R$\" #,0.00",
+            "lineageTag": "4ba03d2e-8a41-418b-8142-9c83e64ecc43"
+          },
+          {
+            "name": "Diferença Título x Razão",
+            "expression": "    [Valor Pago] - CALCULATE ( [Valor Razão], NOT ISBLANK ( fRazao[titulo_id] ) )",
+            "formatString": "\"R$\" #,0.00",
+            "lineageTag": "f86fb38c-1642-468b-a52f-0a3db87b3ed1"
+          },
+          {
+            "name": "Pontos Produtividade",
+            "expression": [
+              "    SUMX (",
+              "        fTitulo,",
+              "        RELATED ( dFornecedor[peso_analise] )",
+              "            + SWITCH ( TRUE (),",
+              "                fTitulo[valor] <= 1000, 0.10,",
+              "                fTitulo[valor] <= 2000, 0.20,",
+              "                fTitulo[valor] <= 15000, 0.30,",
+              "                fTitulo[valor] <= 100000, 0.40,",
+              "                0.50 )",
+              "    )"
+            ],
+            "lineageTag": "57a9000e-e4d3-496f-b73f-35d63e20dc37"
+          },
+          {
+            "name": "Título Página",
+            "expression": "    \"Radar CP · \" & FORMAT ( [Data Base], \"dd/mm/yyyy\" )",
+            "lineageTag": "f5667457-a087-4311-93f3-d08854282b54"
+          },
+          {
+            "name": "Cor Variação",
+            "expression": "    IF ( [Var % MoM] > 0, \"#C0392B\", \"#00AE9D\" )",
+            "lineageTag": "a8d564c1-9199-4446-bbfb-6a80ebd36b43"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "0f977d08-789f-4245-8404-ce2b981356b6",
+        "fromTable": "fTitulo",
+        "fromColumn": "fornecedor_id",
+        "toTable": "dFornecedor",
+        "toColumn": "fornecedor_id"
+      },
+      {
+        "name": "29012e1e-3585-4bba-908a-a1f1bd007988",
+        "fromTable": "fTitulo",
+        "fromColumn": "pa_id",
+        "toTable": "dPA",
+        "toColumn": "pa_id"
+      },
+      {
+        "name": "e29188bb-91e8-4244-b627-4baf28f64846",
+        "fromTable": "fTitulo",
+        "fromColumn": "conta_sk",
+        "toTable": "dConta",
+        "toColumn": "conta_sk"
+      },
+      {
+        "name": "ef09fb4b-314c-4a8d-897a-ef2b288d8914",
+        "fromTable": "fRazao",
+        "fromColumn": "conta_sk",
+        "toTable": "dConta",
+        "toColumn": "conta_sk"
+      },
+      {
+        "name": "cbda030d-9788-4830-8bd8-0b5f8ac57d9e",
+        "fromTable": "fTitulo",
+        "fromColumn": "data_vencimento",
+        "toTable": "dCalendario",
+        "toColumn": "Data"
+      },
+      {
+        "name": "750563e3-112c-44be-9891-5fc85638fccc",
+        "fromTable": "fTitulo",
+        "fromColumn": "data_pagamento",
+        "toTable": "dCalendario",
+        "toColumn": "Data",
+        "isActive": false
+      },
+      {
+        "name": "948819a0-d032-4a76-bc8d-4f989e5cf1a3",
+        "fromTable": "fTitulo",
+        "fromColumn": "data_recebimento",
+        "toTable": "dCalendario",
+        "toColumn": "Data",
+        "isActive": false
+      }
+    ],
+    "expressions": [
+      {
+        "name": "PastaDados",
+        "kind": "m",
+        "expression": "\"C:\\\\Projetos\\\\radar-contas-a-pagar\\\\data\\\\\" meta [IsParameterQuery=true, Type=\"Text\", IsParameterQueryRequired=true]"
+      },
+      {
+        "name": "fxLerCsv",
+        "kind": "m",
+        "expression": [
+          "(arquivo as text) as table =>",
+          "let",
+          "    Origem   = Csv.Document(File.Contents(PastaDados & arquivo), [Delimiter = \",\", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),",
+          "    Promover = Table.PromoteHeaders(Origem, [PromoteAllScalars = true])",
+          "in",
+          "    Promover"
+        ]
+      }
+    ],
+    "annotations": [
+      {
+        "name": "__PBI_TimeIntelligenceEnabled",
+        "value": "0"
+      },
+      {
+        "name": "PBI_QueryOrder",
+        "value": "[\"PastaDados\", \"fxLerCsv\", \"fTitulo\", \"fRazao\", \"dFornecedor\", \"dPA\", \"dConta\", \"dCalendario\"]"
+      },
+      {
+        "name": "Autor",
+        "value": "Gabriel Antônio Ribeiro"
+      }
+    ]
+  }
+}

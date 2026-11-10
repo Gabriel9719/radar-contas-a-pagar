@@ -19,6 +19,7 @@ O painel original está publicado no Power BI Service da empresa, com atualizaç
 | [`dax/medidas.dax`](dax/medidas.dax) | ~25 medidas comentadas: base, D+3 × meta, pontualidade, MoM, YTD/YoY em período equivalente, ABC dinâmica, aging com tabela desconectada, conciliação e produtividade ponderada |
 | [`docs/modelo_e_paginas.md`](docs/modelo_e_paginas.md) | Modelo estrela, relacionamentos, **problemas reais resolvidos** e especificação das 6 páginas |
 | [`docs/valores_referencia.md`](docs/valores_referencia.md) | Valores esperados das medidas, calculados em Python, para **testar o .pbix** |
+| [`pbip/`](pbip) | **Projeto Power BI (PBIP)** pronto para abrir no Desktop: modelo, relacionamentos, medidas e 4 páginas |
 | `data/` | CSVs fictícios (títulos, razão, fornecedores, PAs, contas) |
 
 ## Decisões técnicas que valem destaque
@@ -30,13 +31,14 @@ O painel original está publicado no Power BI Service da empresa, com atualizaç
 - **Colunas derivadas no Power Query, não em DAX.** As colunas `dias_antecedencia`, `excecao_d3` e `dias_atraso` comprimem melhor e não pesam no recálculo.
 - **Testabilidade.** Os valores de referência em Python permitem conferir cada cartão do painel depois de qualquer mudança no modelo.
 
-## Como montar o .pbix
+## Como abrir no Power BI Desktop
 
-1. Power BI Desktop → *Transformar dados* → crie o parâmetro **PastaDados** apontando para `data/`.
-2. Crie consultas em branco com o conteúdo de cada arquivo de `powerquery/` (mesmos nomes).
-3. Marque `dCalendario` como tabela de datas e crie os relacionamentos descritos em [`docs/modelo_e_paginas.md`](docs/modelo_e_paginas.md).
-4. Crie a tabela `_Medidas` e cole as medidas de `dax/medidas.dax`.
-5. Confira os cartões contra [`docs/valores_referencia.md`](docs/valores_referencia.md).
+O projeto está em [`pbip/`](pbip) no formato **Power BI Project (PBIP)**: o modelo (`model.bim`) e o relatório (`report.json`) ficam em texto e são versionados no Git. Eles são gerados por código (`scripts/gerar_pbip.py`) a partir das consultas M e das medidas DAX deste repositório.
+
+1. Clone o repositório e abra `pbip/RadarCP.pbip` no Power BI Desktop.
+2. Em *Transformar dados › Editar parâmetros*, aponte **PastaDados** para a pasta `data\` do seu clone (ou gere de novo com `python scripts/gerar_pbip.py --pasta-dados "C:\\caminho\\data\\"`).
+3. Clique em **Atualizar**. São 4 páginas: Resumo, Exceções D+3, Despesas e ABC, Aging e conciliação.
+4. Confira os cartões contra [`docs/valores_referencia.md`](docs/valores_referencia.md). Para ter um `.pbix`, use *Arquivo › Salvar como*.
 
 ```bash
 pip install -r requirements.txt
