@@ -1,0 +1,16 @@
+fornecedor_id,razao_social,cnpj,grupo_despesa,peso_analise
+1,PROTEGE VIGILÂNCIA LTDA,25.427.614/0001-75,Segurança e transporte de valores,2.0
+2,TRANSVALOR LTDA,92.980.205/0001-38,Segurança e transporte de valores,2.0
+3,LIMPA BEM SERVIÇOS LTDA,86.736.669/0001-63,Limpeza e conservação,2.0
+4,CONSERVA MAIS EIRELI,83.660.962/0001-72,Limpeza e conservação,2.0
+5,SILVA & SOUZA ADVOGADOS,85.551.345/0001-10,Jurídico,1.5
+6,MANUTENÇÃO ÔMEGA LTDA,88.182.213/0001-46,Obras e manutenção predial,1.5
+7,CONSTRUTORA PILAR LTDA,22.560.111/0001-97,Obras e manutenção predial,1.5
+8,TECNOLOGIA NUVEM AZUL S.A.,72.795.421/0001-36,Tecnologia,1.0
+9,SOFTWARE GESTÃO LTDA,60.357.456/0001-55,Tecnologia,1.0
+10,IMOBILIÁRIA CENTRAL LTDA,58.863.625/0001-91,Aluguéis e condomínio,1.0
+11,PAPELARIA TOTAL LTDA,19.840.448/0001-21,Material de expediente,0.8
+12,ENERGIA CENTRO-OESTE S.A.,81.650.399/0001-46,Energia e água,0.5
+13,SANEAMENTO ESTADUAL S.A.,68.244.997/0001-92,Energia e água,0.5
+14,FIBRA NET TELECOM LTDA,83.416.125/0001-57,Telecomunicações,0.5
+15,TELEFONIA BRASIL S.A.,56.572.532/0001-21,Telecomunicações,0.5

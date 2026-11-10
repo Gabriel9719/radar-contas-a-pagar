@@ -1,0 +1,181 @@
+// =============================================================================
+// Radar CP — medidas DAX (tabela de medidas: _Medidas)
+// Autor: Gabriel Antônio Ribeiro · dados fictícios
+//
+// Relacionamentos do modelo (todos 1:N, filtro em DIREÇÃO ÚNICA):
+//   dCalendario[Data] 1─* fTitulo[data_vencimento]   (ATIVO)
+//   dCalendario[Data] 1─* fTitulo[data_pagamento]    (inativo → USERELATIONSHIP)
+//   dCalendario[Data] 1─* fTitulo[data_recebimento]  (inativo → USERELATIONSHIP)
+//   dFornecedor, dPA, dConta 1─* fTitulo ; dConta 1─* fRazao
+// =============================================================================
+
+// ---------- Base ------------------------------------------------------------
+Valor Total =
+    SUM ( fTitulo[valor] )
+
+Qtd Títulos =
+    COUNTROWS ( fTitulo )
+
+Valor Pago =
+    CALCULATE (
+        [Valor Total],
+        NOT ISBLANK ( fTitulo[data_pagamento] ),
+        USERELATIONSHIP ( dCalendario[Data], fTitulo[data_pagamento] )
+    )
+
+Valor em Aberto =
+    CALCULATE ( [Valor Total], ISBLANK ( fTitulo[data_pagamento] ) )
+
+Data Base =
+    // última data com pagamento registrado: evita comparar meses "incompletos"
+    CALCULATE ( MAX ( fTitulo[data_pagamento] ), REMOVEFILTERS () )
+
+Valor Vencido =
+    VAR _base = [Data Base]
+    RETURN
+        CALCULATE (
+            [Valor em Aberto],
+            KEEPFILTERS ( fTitulo[data_vencimento] < _base )
+        )
+
+// ---------- Regra D+3 (documento com < 3 dias para o vencimento) --------------
+Qtd Exceções D+3 =
+    CALCULATE (
+        [Qtd Títulos],
+        fTitulo[excecao_d3] = TRUE (),
+        USERELATIONSHIP ( dCalendario[Data], fTitulo[data_recebimento] )
+    )
+
+Qtd Recebidos =
+    CALCULATE ( [Qtd Títulos], USERELATIONSHIP ( dCalendario[Data], fTitulo[data_recebimento] ) )
+
+% Exceção D+3 =
+    DIVIDE ( [Qtd Exceções D+3], [Qtd Recebidos] )
+
+Meta % Exceção D+3 = 0.15
+
+Status Meta D+3 =
+    IF ( [% Exceção D+3] <= [Meta % Exceção D+3], "Dentro da meta", "Acima da meta" )
+
+// ---------- Pontualidade ------------------------------------------------------
+% Pago em Dia =
+    VAR _pagos =
+        CALCULATE ( [Qtd Títulos], NOT ISBLANK ( fTitulo[data_pagamento] ) )
+    VAR _emDia =
+        CALCULATE ( [Qtd Títulos], NOT ISBLANK ( fTitulo[data_pagamento] ), fTitulo[dias_atraso] <= 0 )
+    RETURN
+        DIVIDE ( _emDia, _pagos )
+
+// ---------- Inteligência de tempo --------------------------------------------
+// Lição aprendida: DATEADD dentro de um filtro de ano quebrava em janeiro, porque o
+// filtro do segmentador de ano continuava valendo e o "mês anterior" (dezembro) ficava
+// de fora. A solução foi trocar o contexto de data inteiro com REMOVEFILTERS no
+// calendário e recalcular a janela a partir da última data visível.
+Valor Mês Anterior =
+    VAR _fimMesAtual = MAX ( dCalendario[Data] )
+    VAR _iniMesAnt = EOMONTH ( _fimMesAtual, -2 ) + 1
+    VAR _fimMesAnt = EOMONTH ( _fimMesAtual, -1 )
+    RETURN
+        CALCULATE (
+            [Valor Total],
+            REMOVEFILTERS ( dCalendario ),
+            DATESBETWEEN ( dCalendario[Data], _iniMesAnt, _fimMesAnt )
+        )
+
+Var % MoM =
+    DIVIDE ( [Valor Total] - [Valor Mês Anterior], [Valor Mês Anterior] )
+
+Valor Acumulado no Ano =
+    TOTALYTD ( [Valor Total], dCalendario[Data] )
+
+Valor Acumulado Ano Anterior =
+    // compara só até o mesmo dia do ano anterior (período equivalente)
+    VAR _ultimo = MIN ( MAX ( dCalendario[Data] ), [Data Base] )
+    RETURN
+        CALCULATE (
+            [Valor Total],
+            REMOVEFILTERS ( dCalendario ),
+            DATESBETWEEN (
+                dCalendario[Data],
+                DATE ( YEAR ( _ultimo ) - 1, 1, 1 ),
+                EDATE ( _ultimo, -12 )
+            )
+        )
+
+Var % YoY (acumulado) =
+    DIVIDE ( [Valor Acumulado no Ano] - [Valor Acumulado Ano Anterior], [Valor Acumulado Ano Anterior] )
+
+// ---------- Curva ABC ------------------------------------------------------------
+% Acumulado ABC =
+    VAR _valorAtual = [Valor Total]
+    VAR _tabela =
+        ADDCOLUMNS ( ALLSELECTED ( dFornecedor[razao_social] ), "@v", [Valor Total] )
+    VAR _acumulado =
+        SUMX ( FILTER ( _tabela, [@v] >= _valorAtual ), [@v] )
+    RETURN
+        DIVIDE ( _acumulado, SUMX ( _tabela, [@v] ) )
+
+Classe ABC =
+    VAR _pct = [% Acumulado ABC]
+    VAR _part = DIVIDE ( [Valor Total], CALCULATE ( [Valor Total], ALLSELECTED ( dFornecedor ) ) )
+    RETURN
+        SWITCH ( TRUE (),
+            ISBLANK ( [Valor Total] ), BLANK (),
+            _pct - _part < 0.80, "A",
+            _pct - _part < 0.95, "B",
+            "C" )
+
+// ---------- Aging (usar com a tabela desconectada dFaixaAging) -----------------
+// dFaixaAging = DATATABLE("Faixa", STRING, "Ordem", INTEGER, "Min", INTEGER, "Max", INTEGER,
+//   {{"A vencer",1,-99999,0},{"1-30",2,1,30},{"31-60",3,31,60},{"61-90",4,61,90},{"> 90",5,91,99999}})
+Valor Aging =
+    VAR _base = [Data Base]
+    VAR _min = SELECTEDVALUE ( dFaixaAging[Min] )
+    VAR _max = SELECTEDVALUE ( dFaixaAging[Max] )
+    RETURN
+        SUMX (
+            FILTER (
+                fTitulo,
+                ISBLANK ( fTitulo[data_pagamento] )
+                    && VAR _d = INT ( _base - fTitulo[data_vencimento] )
+                       RETURN _d >= _min && _d <= _max
+            ),
+            fTitulo[valor]
+        )
+
+// ---------- Conciliação título × razão -----------------------------------------
+Qtd Pagos sem Lançamento =
+    COUNTROWS (
+        FILTER (
+            fTitulo,
+            NOT ISBLANK ( fTitulo[data_pagamento] )
+                && ISEMPTY ( FILTER ( fRazao, fRazao[titulo_id] = fTitulo[titulo_id] ) )
+        )
+    )
+
+Valor Razão =
+    SUM ( fRazao[valor] )
+
+Diferença Título x Razão =
+    [Valor Pago] - CALCULATE ( [Valor Razão], NOT ISBLANK ( fRazao[titulo_id] ) )
+
+// ---------- Produtividade ponderada ---------------------------------------------
+Pontos Produtividade =
+    SUMX (
+        fTitulo,
+        RELATED ( dFornecedor[peso_analise] )
+            + SWITCH ( TRUE (),
+                fTitulo[valor] <= 1000, 0.10,
+                fTitulo[valor] <= 2000, 0.20,
+                fTitulo[valor] <= 15000, 0.30,
+                fTitulo[valor] <= 100000, 0.40,
+                0.50 )
+    )
+
+// ---------- Rótulos dinâmicos ----------------------------------------------------
+Título Página =
+    "Radar CP · " & FORMAT ( [Data Base], "dd/mm/yyyy" )
+
+Cor Variação =
+    // usada em formatação condicional (valor do campo)
+    IF ( [Var % MoM] > 0, "#C0392B", "#00AE9D" )

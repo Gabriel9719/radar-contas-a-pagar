@@ -1,0 +1,11 @@
+conta_sk,cod_reduzido,conta_completa,descricao,tipo_despesa,vigencia_inicio,vigencia_fim
+1,4510,8.1.7.03.00.01,Água e energia,Utilidades,2020-01-01,9999-12-31
+2,4512,8.1.7.03.00.02,Telefonia fixa (plano antigo),Comunicação,2020-01-01,2024-12-31
+3,4512,8.1.7.36.00.09,Limpeza terceirizada (plano novo),Serviços terceiros,2025-01-01,9999-12-31
+4,4520,8.1.7.33.00.01,Vigilância e segurança,Serviços terceiros,2020-01-01,9999-12-31
+5,4530,8.1.7.36.00.01,Limpeza e conservação,Serviços terceiros,2020-01-01,2024-12-31
+6,4540,8.1.7.63.00.04,Serviços técnicos especializados,Serviços terceiros,2020-01-01,9999-12-31
+7,4550,8.1.7.18.00.02,Manutenção e conservação de bens,Manutenção,2020-01-01,9999-12-31
+8,4560,8.1.7.48.00.01,Material de expediente,Materiais,2020-01-01,9999-12-31
+9,4570,8.1.7.12.00.01,Aluguéis,Ocupação,2020-01-01,9999-12-31
+10,4580,8.1.7.03.00.05,Telecomunicações (plano novo),Comunicação,2025-01-01,9999-12-31
